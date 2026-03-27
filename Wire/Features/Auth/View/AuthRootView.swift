@@ -15,7 +15,8 @@ struct AuthRootView: View {
     var body: some View {
         Group {
             if viewModel.currentUser != nil {
-                HomeView(viewModel: viewModel)
+//                HomeRootView(viewModel: viewModel)
+                HomeRootView()
             } else {
                 ZStack {
                     Image("grid")
