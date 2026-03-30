@@ -17,7 +17,7 @@ class AuthViewModel: ObservableObject {
     
     init() {
         Task {
-            self.currentUser = try? await supabase.auth.session.user
+            self.currentUser = try? await SupabaseService.client.auth.session.user
         }
     }
     
@@ -26,8 +26,8 @@ class AuthViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            try await supabase.auth.signIn(email: email, password: password)
-            self.currentUser = try await supabase.auth.session.user
+            try await SupabaseService.client.auth.signIn(email: email, password: password)
+            self.currentUser = try await SupabaseService.client.auth.session.user
             
             } catch {
             errorMessage = error.localizedDescription
@@ -41,10 +41,10 @@ class AuthViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            try await supabase.auth.signUp(
+            try await SupabaseService.client.auth.signUp(
                 email: email,
                 password: password,
-                data: ["phone": .string(phoneNumber)]
+                data: ["phone": AnyJSON.string(phoneNumber)]
             )
 
         } catch {
@@ -59,7 +59,7 @@ class AuthViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            try await supabase.auth.signOut()
+            try await SupabaseService.client.auth.signOut()
             self.currentUser = nil
         } catch {
             errorMessage = error.localizedDescription

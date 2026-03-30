@@ -8,10 +8,14 @@ DerivedData/
 *.xccheckout
 *.xcscmblueprint
 *.xcuserstate
+*.xcconfig
+*.xcconfig-release
+*.xcconfig-debug
 
 # Swift Package Manager
 .build/
 .swiftpm/
+Info.plist
 Package.resolved
 
 # macOS
@@ -20,3 +24,4 @@ Package.resolved
 # Misc
 *.swp
 *.lock
+*.json

@@ -20,7 +20,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		93DAF9BA2F7166FC000C5002 /* Exceptions for "Wire" folder in "Wire" target */ = {
+		93EB14492F7A70790067FC92 /* Exceptions for "Wire" folder in "Wire" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -33,7 +33,7 @@
 		93DAF99D2F714235000C5002 /* Wire */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				93DAF9BA2F7166FC000C5002 /* Exceptions for "Wire" folder in "Wire" target */,
+				93EB14492F7A70790067FC92 /* Exceptions for "Wire" folder in "Wire" target */,
 			);
 			path = Wire;
 			sourceTree = "<group>";

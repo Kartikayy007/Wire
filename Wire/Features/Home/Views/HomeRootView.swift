@@ -9,7 +9,10 @@ import SwiftData
 import SwiftUI
 
 struct HomeRootView: View {
-    //    @ObservedObject var viewModel: AuthViewModel
+    @ObservedObject var viewModel: AuthViewModel
+    @StateObject private var lookupViewModel = LookForUserViewModel()
+    
+    @State var search: String
     
     @Query private var storedContacts: [ContactModel]
     @StateObject private var contactsUtils = ContactsUtil()
@@ -27,6 +30,18 @@ struct HomeRootView: View {
                     }
                     
                     Spacer()
+                    
+//                    Button(action: {
+//                        Task {
+//                            await viewModel.signOut()
+//                        }
+//                    }) {
+//                        Text("signout")
+//                            .padding()
+//                            .background(Color.red.opacity(0.1))
+//                            .cornerRadius(10)
+//                    }
+//                    .padding(.top, 50)
                     
                     Text("Chat")
                         .font(Font.custom("Stolzl-Regular", size: 30))
@@ -46,6 +61,39 @@ struct HomeRootView: View {
                 .padding(.top, 20)
                 
                 Spacer()
+
+
+                HStack {
+                    TextField("Search", text: $search)
+                        .padding(32)
+                    
+                    Button(action: {}) {
+                        Circle()
+                            .padding(10)
+                            .overlay(
+                                Image(systemName: "arrowshape.right")
+                                    .foregroundStyle(.white)
+                            )
+                    }
+                    
+                }.frame(maxWidth: 350, maxHeight: 55)
+                    .background(Color.yellow)
+                    .foregroundStyle(.black)
+                    .cornerRadius(30)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 30)
+                            .stroke(Color.black, lineWidth: 1)
+                    )
+                    .padding(.vertical, 15)
+                
+                VStack {
+                    ChatsListView(
+                        storedContacts: storedContacts,
+                        registeredPhones: lookupViewModel.registeredPhones)
+                }.refreshable(action: {
+                    print("refresing and calling API")
+                    await lookupViewModel.syncContacts(storedContacts)
+                })
                 
             }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .background(
@@ -74,7 +122,7 @@ struct HomeRootView: View {
                     }
                 )
             
-            if storedContacts.isEmpty == true {
+            if storedContacts.isEmpty {
                 ZStack {
                     Color.black.opacity(0.4).ignoresSafeArea()
                     GetContactView(contactsUtils: contactsUtils)
@@ -82,10 +130,13 @@ struct HomeRootView: View {
                 
             }
             
+        }.task(id: storedContacts.count) {
+            await lookupViewModel.syncContacts(storedContacts)
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
 
 #Preview {
-    HomeRootView()
+    HomeRootView(viewModel: AuthViewModel(), search: "seach")
 }

@@ -15,8 +15,7 @@ struct AuthRootView: View {
     var body: some View {
         Group {
             if viewModel.currentUser != nil {
-//                HomeRootView(viewModel: viewModel)
-                HomeRootView()
+                HomeRootView(viewModel: viewModel, search: "")
             } else {
                 ZStack {
                     Image("grid")
@@ -50,7 +49,7 @@ struct AuthRootView: View {
         }.onOpenURL { url in
             Task {
                 do {
-                    try await supabase.auth.session(from: url)
+                    try await SupabaseService.client.auth.session(from: url)
                 } catch {
                     print("Deep link error: \(error)")
                 }
